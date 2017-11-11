@@ -1,8 +1,10 @@
 import javafx.application.Application;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.control.Button;
@@ -72,8 +74,28 @@ public class RoboWar2 extends Application implements Observer {
                     }
                 });
 
+        TextField updateSize = new TextField("Number of Objects");
+        updateSize.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                int items = Integer.parseInt(updateSize.getText());
+                if (items < arena.getItems().size()){
+                    while (arena.getItems().size() > items){
+                        arena.getItems().remove(0);
+                    }
+                }else{
+                    while (arena.getItems().size() < items){
+                        arena.getItems().add(new Robot(arena, arena.getMASS_DEFAULT(), (int)(Math.random() * arena.getRADIUS_DEFAULT() + 1),
+                                (int)(Math.random() * arena.getWidth() + 1),  (int)(Math.random() * arena.getHeight() + 1),
+                                (int)(Math.random() * 11 - 5),  (int)(Math.random() * 11 - 5)));
+                    }
+                }
+            }
+        });
+
         bottom.setRight(step);
         bottom.setLeft(onOff);
+        bottom.setCenter(updateSize);
 
         pane.setBottom(bottom);
 

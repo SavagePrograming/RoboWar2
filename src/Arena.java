@@ -258,6 +258,10 @@ public class Arena extends Observable {
         this.items.add(item);
     }
 
+    public void remove(ArenaItem item){
+        this.items.remove(item);
+    }
+
     public int getWidth() {
         return width;
     }
