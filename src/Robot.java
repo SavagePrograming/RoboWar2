@@ -134,8 +134,8 @@ public class Robot extends ArenaItem {
 
     @Override
     public void run() {
-        System.out.print("("+this.getxSpeed() + ", " + this.getySpeed() + ") (" + this.getxLocation() + ", " + this.getyLocation() + ")");
-        System.out.println();
+//        System.out.print("("+this.getxSpeed() + ", " + this.getySpeed() + ") (" + this.getxLocation() + ", " + this.getyLocation() + ")");
+//        System.out.println();
 
     }
 }

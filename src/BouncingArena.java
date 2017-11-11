@@ -41,7 +41,7 @@ public class BouncingArena extends Arena {
      */
     private void handleOver(int x, int y, ArenaItem i) {
         if (x + i.getRadius() > getWidth()) {
-            System.out.println("Case 1");
+//            System.out.println("Case 1");
             double time = getTime(getWidth() - i.getRadius() - i.getxLocation(), i.getxSpeed(), i.getxAcceleration());
             double speed2 = i.getxSpeed() + time * i.getxAcceleration();
 
@@ -49,7 +49,7 @@ public class BouncingArena extends Arena {
             i.setxSpeed(-speed2 + (getTimeChange() - time) * i.getxAcceleration());
 
         } else if (x < i.getRadius()) {
-            System.out.println("Case 2");
+//            System.out.println("Case 2");
 
             double time = getTime( i.getRadius() - i.getxLocation(), i.getxSpeed(), i.getxAcceleration());
             double speed2 = i.getxSpeed() + time * i.getxAcceleration();
@@ -63,14 +63,14 @@ public class BouncingArena extends Arena {
 
         if (y + i.getRadius() > getHeight()) {
 
-            System.out.println("Case 3");
+//            System.out.println("Case 3");
             double time = getTime( getHeight() - i.getRadius()  - i.getyLocation(), i.getySpeed(), i.getyAcceleration());
             double speed2 = i.getySpeed() + time * i.getyAcceleration();
             i.setyLocation((int)(getHeight() - i.getRadius() + Arena.getDistance((getTimeChange() - time), -speed2, i.getyAcceleration())));
             i.setySpeed(-speed2 + (getTimeChange() - time) * i.getyAcceleration());
 
         } else if (y < i.getRadius()) {
-            System.out.println("Case 4");
+//            System.out.println("Case 4");
             double time = getTime( i.getRadius() - i.getyLocation(), i.getySpeed(), i.getyAcceleration());
             double speed2 = i.getySpeed() + time * i.getyAcceleration();
             i.setyLocation((int)(i.getRadius() + Arena.getDistance((getTimeChange() - time), -speed2, i.getyAcceleration())));

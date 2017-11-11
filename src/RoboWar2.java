@@ -32,8 +32,10 @@ public class RoboWar2 extends Application implements Observer {
 
 
         arena = new BouncingArena();
-        for (int i = 0; i < 1; i ++){
-            arena.add(new Robot(arena, arena.getMASS_DEFAULT(), 4, 200, 250, 5.0, -5.0));
+        for (int i = 0; i < 100; i ++){
+            arena.add(new Robot(arena, arena.getMASS_DEFAULT(), (int)(Math.random() * arena.getRADIUS_DEFAULT() + 1),
+                    (int)(Math.random() * arena.getWidth() + 1),  (int)(Math.random() * arena.getHeight() + 1),
+                    (int)(Math.random() * 11 - 5),  (int)(Math.random() * 11 - 5)));
         }
 
 
