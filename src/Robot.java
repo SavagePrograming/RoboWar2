@@ -128,12 +128,14 @@ public class Robot extends ArenaItem {
      * the xAcceleration is set to the Arenas's X_ACCELERATION_DEFAULT;
      * the yAcceleration is set to the Arenas's Y_ACCELERATION_DEFAULT;
      */
-    public Robot(Arena myArena, int mass, int radius, int xLocation, int yLocation, int xSpeed, int ySpeed ){
+    public Robot(Arena myArena, int mass, int radius, int xLocation, int yLocation, double xSpeed, double ySpeed ){
         super(myArena, mass, radius, xLocation, yLocation, xSpeed, ySpeed );
     }
 
     @Override
     public void run() {
-        System.out.println("Do Stuff");
+        System.out.print("("+this.getxSpeed() + ", " + this.getySpeed() + ") (" + this.getxLocation() + ", " + this.getyLocation() + ")");
+        System.out.println();
+
     }
 }

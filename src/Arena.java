@@ -1,7 +1,7 @@
 import javafx.beans.InvalidationListener;
-import javafx.beans.Observable;
 
 import java.util.ArrayList;
+import java.util.Observable;
 
 /**
  * The Arenas super class,
@@ -10,23 +10,26 @@ import java.util.ArrayList;
  *
  * Arenas will control the physics
  */
-public class Arena extends java.util.Observable {
-    int MASS_DEFAULT = ArenaItem.MASS_DEFAULT;
-    int RADIUS_DEFAULT = ArenaItem.RADIUS_DEFAULT;
-    int X_DEFAULT = ArenaItem.X_DEFAULT;
-    int Y_DEFAULT = ArenaItem.Y_DEFAULT;
-    int X_SPEED_DEFAULT = ArenaItem.X_SPEED_DEFAULT;
-    int Y_SPEED_DEFAULT = ArenaItem.Y_SPEED_DEFAULT;
-    int X_ACCELERATION_DEFAULT = ArenaItem.X_ACCELERATION_DEFAULT;
-    int Y_ACCELERATION_DEFAULT = ArenaItem.Y_ACCELERATION_DEFAULT;
+public class Arena extends Observable {
+    private int MASS_DEFAULT = ArenaItem.MASS_DEFAULT;
+    private int RADIUS_DEFAULT = ArenaItem.RADIUS_DEFAULT;
+    private int X_DEFAULT = ArenaItem.X_DEFAULT;
+    private int Y_DEFAULT = ArenaItem.Y_DEFAULT;
+    private double X_SPEED_DEFAULT = ArenaItem.X_SPEED_DEFAULT;
+    private double Y_SPEED_DEFAULT = ArenaItem.Y_SPEED_DEFAULT;
+    private double X_ACCELERATION_DEFAULT = ArenaItem.X_ACCELERATION_DEFAULT;
+    private double Y_ACCELERATION_DEFAULT = ArenaItem.Y_ACCELERATION_DEFAULT;
 
     static final int WIDTH = 500;
     static final int HEIGHT = 500;
-    static final int TIME_CHANGE = 1;
+    static final double TIME_CHANGE = 1;
 
     private int width;
-    private int hieght;
-    private int timeChange;
+    private int height;
+
+
+
+    private double timeChange;
 
     private ArrayList<ArenaItem> items;
 
@@ -38,7 +41,7 @@ public class Arena extends java.util.Observable {
      * Constructs the default Arenas
      */
     public Arena(){
-        this.hieght = HEIGHT;
+        this.height = HEIGHT;
         this.width = WIDTH;
         this.timeChange = TIME_CHANGE;
         items = new ArrayList<ArenaItem>();
@@ -51,7 +54,7 @@ public class Arena extends java.util.Observable {
      * @param height the width of the Arenas
      */
     public Arena(int width, int height){
-        this.hieght = height;
+        this.height = height;
         this.width = width;
         this.timeChange = TIME_CHANGE;
     }
@@ -63,7 +66,7 @@ public class Arena extends java.util.Observable {
      * @param items the items in the Arenas
      */
     public Arena(int width, int height, ArrayList<ArenaItem> items){
-        this.hieght = height;
+        this.height = height;
         this.width = width;
         this.items = items;
         this.timeChange = TIME_CHANGE;
@@ -84,9 +87,9 @@ public class Arena extends java.util.Observable {
      * @param Y_ACCELERATION_DEFAULT y acceleration default for the Arenas
      */
     public Arena(int width, int height, int MASS_DEFAULT, int RADIUS_DEFAULT , int X_DEFAULT,
-                 int Y_DEFAULT, int X_SPEED_DEFAULT, int Y_SPEED_DEFAULT, int X_ACCELERATION_DEFAULT,
-                 int Y_ACCELERATION_DEFAULT){
-        this.hieght = height;
+                 int Y_DEFAULT, double X_SPEED_DEFAULT, double Y_SPEED_DEFAULT, double X_ACCELERATION_DEFAULT,
+                 double Y_ACCELERATION_DEFAULT){
+        this.height = height;
         this.width = width;
         this.timeChange = TIME_CHANGE;
         this.MASS_DEFAULT = MASS_DEFAULT;
@@ -115,9 +118,9 @@ public class Arena extends java.util.Observable {
      * @param items the items in the Arenas
      */
     public Arena(int width, int height, ArrayList<ArenaItem> items, int MASS_DEFAULT, int RADIUS_DEFAULT , int X_DEFAULT,
-                 int Y_DEFAULT, int X_SPEED_DEFAULT, int Y_SPEED_DEFAULT, int X_ACCELERATION_DEFAULT,
-                 int Y_ACCELERATION_DEFAULT) {
-        this.hieght = height;
+                 int Y_DEFAULT, double X_SPEED_DEFAULT, double Y_SPEED_DEFAULT, double X_ACCELERATION_DEFAULT,
+                 double Y_ACCELERATION_DEFAULT) {
+        this.height = height;
         this.width = width;
         this.timeChange = TIME_CHANGE;
         this.MASS_DEFAULT = MASS_DEFAULT;
@@ -136,9 +139,9 @@ public class Arena extends java.util.Observable {
      * @param i the item
      * @return
      */
-    public int move(ArenaItem i){
-        int x = i.getxLocation() + i.getxSpeed() *  timeChange + ((int) Math.pow((double)timeChange, 2.0)) * i.getxAcceleration();
-        int y = i.getyLocation() + i.getySpeed() * timeChange + ((int)Math.pow((double)timeChange, 2.0)) * i.getyAcceleration();
+    public double move(ArenaItem i){
+        int x = (int)(i.getxLocation() + getDistance(timeChange, i.getxSpeed(), i.getxAcceleration()));
+        int y = (int)(i.getxLocation() + getDistance(timeChange, i.getySpeed(), i.getyAcceleration()));
 
         if (inRange(x, y, i.getRadius())){
             i.setxLocation(x);
@@ -159,7 +162,7 @@ public class Arena extends java.util.Observable {
      * @return true if in. false if out
      */
     public boolean inRange(int x, int y, int radius){
-        return 0 <= x - radius && x + radius <= this.width && 0  <= y - radius && y + radius<= this.hieght;
+        return 0 <= x - radius && x + radius <= this.width && 0  <= y - radius && y + radius<= this.height;
     }
 
     /**
@@ -182,8 +185,8 @@ public class Arena extends java.util.Observable {
             i.setxSpeed(i.getxSpeed()+ timeChange * i.getxAcceleration());
         }
 
-        if (y + i.getRadius() > hieght) {
-            i.setyLocation(hieght - i.getRadius());
+        if (y + i.getRadius() > height) {
+            i.setyLocation(height - i.getRadius());
             i.setySpeed(0);
 
         } else if (y < i.getRadius()){
@@ -197,22 +200,9 @@ public class Arena extends java.util.Observable {
 
     }
 
-    /**
-     * gets the time to travel delta Distance with starting speed and constant acceleration
-     * @param deltaDistance the change in distance
-     * @param speed the starting speed
-     * @param acceleration the constant acceration
-     * @return the time taken
-     */
-    private int getTime(int deltaDistance, int speed, int acceleration){
-        int A1 = (speed - (int)Math.sqrt(Math.pow((double)speed, 2.0) + acceleration * deltaDistance)) / acceleration;
-        int A2 = (speed + (int)Math.sqrt(Math.pow((double)speed, 2.0) + acceleration * deltaDistance)) / acceleration;
-        if (A1 > 0 && A1 < timeChange){
-            return A1;
-        }else {
-            return A2;
-        }
-    }
+   public static double getDistance(double time, double speed, double acceleration){
+        return speed *  time + ((double) Math.pow((double)time, 2.0)) * acceleration;
+   }
 
     /**
      * updates the locations then changes the gui
@@ -222,12 +212,61 @@ public class Arena extends java.util.Observable {
             this.move(item);
             item.run();
         }
+//        System.out.println("Tried");
+        super.setChanged();
         super.notifyObservers();
+//        System.out.println("Done");
+    }
+
+    public int getMASS_DEFAULT() {
+        return MASS_DEFAULT;
+    }
+
+    public int getRADIUS_DEFAULT() {
+        return RADIUS_DEFAULT;
+    }
+
+    public int getX_DEFAULT() {
+        return X_DEFAULT;
+    }
+
+    public int getY_DEFAULT() {
+        return Y_DEFAULT;
+    }
+
+    public double getX_SPEED_DEFAULT() {
+        return X_SPEED_DEFAULT;
+    }
+
+    public double getY_SPEED_DEFAULT() {
+        return Y_SPEED_DEFAULT;
+    }
+
+    public double getX_ACCELERATION_DEFAULT() {
+        return X_ACCELERATION_DEFAULT;
+    }
+
+    public double getY_ACCELERATION_DEFAULT() {
+        return Y_ACCELERATION_DEFAULT;
     }
 
     public ArrayList<ArenaItem> getItems() {
         return items;
     }
 
-    public add
+    public void add(ArenaItem item){
+        this.items.add(item);
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public double getTimeChange() {
+        return timeChange;
+    }
 }

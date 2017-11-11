@@ -11,10 +11,10 @@ public abstract class ArenaItem {
     final static int MASS_DEFAULT = 10;
     final static int X_DEFAULT = 0;
     final static int Y_DEFAULT = 0;
-    final static int X_SPEED_DEFAULT = 0;
-    final static int Y_SPEED_DEFAULT = 0;
-    final static int X_ACCELERATION_DEFAULT = 0;
-    final static int Y_ACCELERATION_DEFAULT = 0;
+    final static double X_SPEED_DEFAULT = 0;
+    final static double Y_SPEED_DEFAULT = 0;
+    final static double X_ACCELERATION_DEFAULT = 0;
+    final static double Y_ACCELERATION_DEFAULT = 0;
     final static int RADIUS_DEFAULT = 10;
 
 
@@ -25,11 +25,11 @@ public abstract class ArenaItem {
 
     private int radius;
 
-    private int xAcceleration;
-    private int yAcceleration;
+    private double xAcceleration;
+    private double yAcceleration;
 
-    private int xSpeed;
-    private int ySpeed;
+    private double xSpeed;
+    private double ySpeed;
 
     private int xLocation;
     private int yLocation;
@@ -139,7 +139,7 @@ public abstract class ArenaItem {
      * the xAcceleration is set to X_ACCELERATION_DEFAULT;
      * the yAcceleration is set to Y_ACCELERATION_DEFAULT;
      */
-    public ArenaItem(int mass, int radius, int xLocation, int yLocation, int xSpeed, int ySpeed ){
+    public ArenaItem(int mass, int radius, int xLocation, int yLocation, double xSpeed, double ySpeed ){
         this.mass = mass;
         this.radius = radius;
         this.xLocation = xLocation;
@@ -168,14 +168,14 @@ public abstract class ArenaItem {
      */
     public ArenaItem(Arena myArena){
         this.myArena = myArena;
-        this.mass = myArena.MASS_DEFAULT;
-        this.radius = myArena.RADIUS_DEFAULT;
-        this.xLocation = myArena.X_DEFAULT;
-        this.yLocation = myArena.Y_DEFAULT;
-        this.xSpeed = myArena.X_SPEED_DEFAULT;
-        this.ySpeed = myArena.Y_SPEED_DEFAULT;
-        this.xAcceleration = myArena.X_ACCELERATION_DEFAULT;
-        this.yAcceleration = myArena.Y_ACCELERATION_DEFAULT;
+        this.mass = myArena.getMASS_DEFAULT();
+        this.radius = myArena.getRADIUS_DEFAULT();
+        this.xLocation = myArena.getX_DEFAULT();
+        this.yLocation = myArena.getY_DEFAULT();
+        this.xSpeed = myArena.getX_SPEED_DEFAULT();
+        this.ySpeed = myArena.getY_SPEED_DEFAULT();
+        this.xAcceleration = myArena.getX_ACCELERATION_DEFAULT();
+        this.yAcceleration = myArena.getY_ACCELERATION_DEFAULT();
     }
 
     /**
@@ -192,13 +192,13 @@ public abstract class ArenaItem {
     public ArenaItem(Arena myArena, int mass){
         this.myArena = myArena;
         this.mass = mass;
-        this.radius = myArena.RADIUS_DEFAULT;
-        this.xLocation = myArena.X_DEFAULT;
-        this.yLocation = myArena.Y_DEFAULT;
-        this.xSpeed = myArena.X_SPEED_DEFAULT;
-        this.ySpeed = myArena.Y_SPEED_DEFAULT;
-        this.xAcceleration = myArena.X_ACCELERATION_DEFAULT;
-        this.yAcceleration = myArena.Y_ACCELERATION_DEFAULT;
+        this.radius = myArena.getRADIUS_DEFAULT();
+        this.xLocation = myArena.getX_DEFAULT();
+        this.yLocation = myArena.getY_DEFAULT();
+        this.xSpeed = myArena.getX_SPEED_DEFAULT();
+        this.ySpeed = myArena.getY_SPEED_DEFAULT();
+        this.xAcceleration = myArena.getX_ACCELERATION_DEFAULT();
+        this.yAcceleration = myArena.getY_ACCELERATION_DEFAULT();
     }
 
     /**
@@ -216,12 +216,12 @@ public abstract class ArenaItem {
         this.myArena = myArena;
         this.mass = mass;
         this.radius = radius;
-        this.xLocation = myArena.X_DEFAULT;
-        this.yLocation = myArena.Y_DEFAULT;
-        this.xSpeed = myArena.X_SPEED_DEFAULT;
-        this.ySpeed = myArena.Y_SPEED_DEFAULT;
-        this.xAcceleration = myArena.X_ACCELERATION_DEFAULT;
-        this.yAcceleration = myArena.Y_ACCELERATION_DEFAULT;
+        this.xLocation = myArena.getX_DEFAULT();
+        this.yLocation = myArena.getY_DEFAULT();
+        this.xSpeed = myArena.getX_SPEED_DEFAULT();
+        this.ySpeed = myArena.getY_SPEED_DEFAULT();
+        this.xAcceleration = myArena.getX_ACCELERATION_DEFAULT();
+        this.yAcceleration = myArena.getY_ACCELERATION_DEFAULT();
     }
 
     /**
@@ -243,8 +243,8 @@ public abstract class ArenaItem {
         this.yLocation = yLocation;
         this.xSpeed = xSpeed;
         this.ySpeed = ySpeed;
-        this.xAcceleration = myArena.X_ACCELERATION_DEFAULT;
-        this.yAcceleration = myArena.Y_ACCELERATION_DEFAULT;
+        this.xAcceleration = myArena.getX_ACCELERATION_DEFAULT();
+        this.yAcceleration = myArena.getY_ACCELERATION_DEFAULT();
     }
 
     /**
@@ -258,7 +258,7 @@ public abstract class ArenaItem {
      * the xAcceleration is set to the Arenas's X_ACCELERATION_DEFAULT;
      * the yAcceleration is set to the Arenas's Y_ACCELERATION_DEFAULT;
      */
-    public ArenaItem(Arena myArena, int mass, int radius, int xLocation, int yLocation, int xSpeed, int ySpeed ){
+    public ArenaItem(Arena myArena, int mass, int radius, int xLocation, int yLocation, double xSpeed, double ySpeed ){
         this.myArena = myArena;
         this.mass = mass;
         this.radius = radius;
@@ -266,8 +266,8 @@ public abstract class ArenaItem {
         this.yLocation = yLocation;
         this.xSpeed = xSpeed;
         this.ySpeed = ySpeed;
-        this.xAcceleration = myArena.X_ACCELERATION_DEFAULT;
-        this.yAcceleration = myArena.Y_ACCELERATION_DEFAULT;
+        this.xAcceleration = myArena.getX_ACCELERATION_DEFAULT();
+        this.yAcceleration = myArena.getY_ACCELERATION_DEFAULT();
     }
 
     /**
@@ -290,7 +290,7 @@ public abstract class ArenaItem {
      * Gets the xAcceleration
      * @return xAcceleration
      */
-    public int getxAcceleration() {
+    public double getxAcceleration() {
         return xAcceleration;
     }
 
@@ -298,7 +298,7 @@ public abstract class ArenaItem {
      * Sets the xAcceleration
      * @param xAcceleration
      */
-    public void setxAcceleration(int xAcceleration) {
+    public void setxAcceleration(double xAcceleration) {
         this.xAcceleration = xAcceleration;
     }
 
@@ -306,7 +306,7 @@ public abstract class ArenaItem {
      * Gets the yAcceleration
      * @return yAcceleration
      */
-    public int getyAcceleration() {
+    public double getyAcceleration() {
         return yAcceleration;
     }
 
@@ -314,7 +314,7 @@ public abstract class ArenaItem {
      * Sets the yAcceleration
      * @param yAcceleration
      */
-    public void setyAcceleration(int yAcceleration) {
+    public void setyAcceleration(double yAcceleration) {
         this.yAcceleration = yAcceleration;
     }
 
@@ -322,7 +322,7 @@ public abstract class ArenaItem {
      * Gets the xSpeed
      * @return xSpeed
      */
-    public int getxSpeed() {
+    public double getxSpeed() {
         return xSpeed;
     }
 
@@ -330,7 +330,7 @@ public abstract class ArenaItem {
      * Sets the xSpeed
      * @param xSpeed
      */
-    public void setxSpeed(int xSpeed) {
+    public void setxSpeed(double xSpeed) {
         this.xSpeed = xSpeed;
     }
 
@@ -338,7 +338,7 @@ public abstract class ArenaItem {
      * Gets the ySpeed
      * @return ySpeed
      */
-    public int getySpeed() {
+    public double getySpeed() {
         return ySpeed;
     }
 
@@ -346,7 +346,7 @@ public abstract class ArenaItem {
      * Sets the ySpeed
      * @param ySpeed
      */
-    public void setySpeed(int ySpeed) {
+    public void setySpeed(double ySpeed) {
         this.ySpeed = ySpeed;
     }
 

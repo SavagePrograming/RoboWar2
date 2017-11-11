@@ -21,6 +21,7 @@ public class ArenaControler extends Thread {
             if (Step){
                 Step = false;
                 this.arena.update();
+                waitTillReady();
             }else if (Run){
                 this.arena.update();
                 try {
@@ -28,27 +29,47 @@ public class ArenaControler extends Thread {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
+            }else{
+                waitTillReady();
             }
+
         }
     }
 
-    public void turnOff(){
+    public synchronized void waitTillReady(){
+        try {
+            wait();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public synchronized void turnOff(){
         Run = false;
+        notifyAll();
     }
 
-    public void turnOnOff(){
+    public synchronized void turnOnOff(){
         Run = !Run;
+        notifyAll();
     }
 
-    public void turnOn(){
+    public synchronized void turnOn(){
         Run = true;
+        notifyAll();
     }
 
-    public void step(){
+    public synchronized void step(){
         Step = true;
+        notifyAll();
     }
 
     public void setSpeed(int speed) {
         this.speed = speed;
+    }
+
+    public synchronized void exit(){
+        On = false;
+        notifyAll();
     }
 }

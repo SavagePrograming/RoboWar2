@@ -21,7 +21,7 @@ import java.util.Observer;
 public class RoboWar2 extends Application implements Observer {
     private Arena arena;
     private ArenaControler arenaControler;
-    private GraphicsContext graphicsContext;
+    private Canvas canvas;
 
     public static void main(String[] args) {
         launch(args);
@@ -31,21 +31,23 @@ public class RoboWar2 extends Application implements Observer {
     public void start(Stage primaryStage) {
 
 
-        arena = new Arena();
-        for (int i = 0; i < 10; i ++){
-
+        arena = new BouncingArena();
+        for (int i = 0; i < 1; i ++){
+            arena.add(new Robot(arena, arena.getMASS_DEFAULT(), 4, 200, 250, 5.0, -5.0));
         }
-        arena.addObserver(this);
+
 
         arenaControler = new ArenaControler(arena);
+        arenaControler.setSpeed(5);
         System.out.println("Setting Up Gui and Arena");
 
 
         BorderPane pane = new BorderPane();
 
-        Canvas canvas = new Canvas(Arena.WIDTH, Arena.HEIGHT);
-        graphicsContext = canvas.getGraphicsContext2D();
+        canvas = new Canvas(arena.getWidth(), arena.getHeight());
+//        GraphicsContext graphicsContext = canvas.getGraphicsContext2D();
 
+//        graphicsContext.fillOval(10, 60, 30, 30);
         pane.setTop(canvas);
 
         BorderPane bottom = new BorderPane();
@@ -77,24 +79,38 @@ public class RoboWar2 extends Application implements Observer {
         primaryStage.show();
 
 
+        arena.addObserver(this);
+        arenaControler.start();
+
 
     }
 
     @Override
     public void update(Observable o, Object arg) {
+//        System.out.println("Update Recived");
         javafx.application.Platform.runLater( () ->
                 updateGuiLater(o, arg)
         );
     }
 
     private void updateGuiLater(Observable o, Object arg){
+//        System.out.println("Update Recived");
+        GraphicsContext graphicsContext = canvas.getGraphicsContext2D();
+        graphicsContext.clearRect(0,0,arena.getWidth(), arena.getHeight());
         if (o instanceof Arena){
             graphicsContext.setFill(Color.GREEN);
+//            graphicsContext.fillOval(10, 60, 30, 30);
             for (ArenaItem item:((Arena) o).getItems()){
                 int r = item.getRadius();
-                graphicsContext.fillOval(item.getxLocation() - r, item.getyLocation() - r, 2 * r, 2 * r);
+                graphicsContext.fillOval(item.getxLocation() - r, item.getyLocation() - r, 2 * r , 2 * r );
             }
         }
 
+    }
+
+    @Override
+    public void stop() throws Exception {
+        arenaControler.exit();
+        super.stop();
     }
 }
