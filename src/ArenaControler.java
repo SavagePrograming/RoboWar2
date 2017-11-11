@@ -44,6 +44,10 @@ public class ArenaControler extends Thread {
         }
     }
 
+    public synchronized void wakeOthers(){
+        notifyAll();
+    }
+
     public synchronized void turnOff(){
         Run = false;
         notifyAll();
