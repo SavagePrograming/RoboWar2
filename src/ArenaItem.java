@@ -34,6 +34,15 @@ public abstract class ArenaItem {
     private int xLocation;
     private int yLocation;
 
+    private double tempxAcceleration;
+    private double tempyAcceleration;
+
+    private double tempxSpeed;
+    private double tempySpeed;
+
+    private int tempxLocation;
+    private int tempyLocation;
+
     private Arena myArena;
 
     /*
@@ -61,6 +70,7 @@ public abstract class ArenaItem {
         this.ySpeed = Y_SPEED_DEFAULT;
         this.xAcceleration = X_ACCELERATION_DEFAULT;
         this.yAcceleration = Y_ACCELERATION_DEFAULT;
+        updateTemps();
     }
     /**
      * Constructs the default ArenaItem
@@ -82,6 +92,7 @@ public abstract class ArenaItem {
         this.ySpeed = Y_SPEED_DEFAULT;
         this.xAcceleration = X_ACCELERATION_DEFAULT;
         this.yAcceleration = Y_ACCELERATION_DEFAULT;
+        updateTemps();
     }
 
     /**
@@ -104,6 +115,7 @@ public abstract class ArenaItem {
         this.ySpeed = Y_SPEED_DEFAULT;
         this.xAcceleration = X_ACCELERATION_DEFAULT;
         this.yAcceleration = Y_ACCELERATION_DEFAULT;
+        updateTemps();
     }
 
     /**
@@ -126,6 +138,7 @@ public abstract class ArenaItem {
         this.ySpeed = ySpeed;
         this.xAcceleration = X_ACCELERATION_DEFAULT;
         this.yAcceleration = Y_ACCELERATION_DEFAULT;
+        updateTemps();
     }
 
     /**
@@ -148,6 +161,7 @@ public abstract class ArenaItem {
         this.ySpeed = ySpeed;
         this.xAcceleration = X_ACCELERATION_DEFAULT;
         this.yAcceleration = Y_ACCELERATION_DEFAULT;
+        updateTemps();
     }
 
      /*
@@ -176,6 +190,7 @@ public abstract class ArenaItem {
         this.ySpeed = myArena.getY_SPEED_DEFAULT();
         this.xAcceleration = myArena.getX_ACCELERATION_DEFAULT();
         this.yAcceleration = myArena.getY_ACCELERATION_DEFAULT();
+        updateTemps();
     }
 
     /**
@@ -199,6 +214,7 @@ public abstract class ArenaItem {
         this.ySpeed = myArena.getY_SPEED_DEFAULT();
         this.xAcceleration = myArena.getX_ACCELERATION_DEFAULT();
         this.yAcceleration = myArena.getY_ACCELERATION_DEFAULT();
+        updateTemps();
     }
 
     /**
@@ -222,6 +238,7 @@ public abstract class ArenaItem {
         this.ySpeed = myArena.getY_SPEED_DEFAULT();
         this.xAcceleration = myArena.getX_ACCELERATION_DEFAULT();
         this.yAcceleration = myArena.getY_ACCELERATION_DEFAULT();
+        updateTemps();
     }
 
     /**
@@ -245,6 +262,7 @@ public abstract class ArenaItem {
         this.ySpeed = ySpeed;
         this.xAcceleration = myArena.getX_ACCELERATION_DEFAULT();
         this.yAcceleration = myArena.getY_ACCELERATION_DEFAULT();
+        updateTemps();
     }
 
     /**
@@ -268,6 +286,7 @@ public abstract class ArenaItem {
         this.ySpeed = ySpeed;
         this.xAcceleration = myArena.getX_ACCELERATION_DEFAULT();
         this.yAcceleration = myArena.getY_ACCELERATION_DEFAULT();
+        updateTemps();
     }
 
     /**
@@ -298,9 +317,9 @@ public abstract class ArenaItem {
      * Sets the xAcceleration
      * @param xAcceleration
      */
-    public void setxAcceleration(double xAcceleration) {
-        this.xAcceleration = xAcceleration;
-    }
+//    public void setxAcceleration(double xAcceleration) {
+//        this.xAcceleration = xAcceleration;
+//    }
 
     /**
      * Gets the yAcceleration
@@ -314,9 +333,9 @@ public abstract class ArenaItem {
      * Sets the yAcceleration
      * @param yAcceleration
      */
-    public void setyAcceleration(double yAcceleration) {
-        this.yAcceleration = yAcceleration;
-    }
+//    public void setyAcceleration(double yAcceleration) {
+//        this.yAcceleration = yAcceleration;
+//    }
 
     /**
      * Gets the xSpeed
@@ -330,9 +349,9 @@ public abstract class ArenaItem {
      * Sets the xSpeed
      * @param xSpeed
      */
-    public void setxSpeed(double xSpeed) {
-        this.xSpeed = xSpeed;
-    }
+//    public void setxSpeed(double xSpeed) {
+//        this.xSpeed = xSpeed;
+//    }
 
     /**
      * Gets the ySpeed
@@ -346,9 +365,9 @@ public abstract class ArenaItem {
      * Sets the ySpeed
      * @param ySpeed
      */
-    public void setySpeed(double ySpeed) {
-        this.ySpeed = ySpeed;
-    }
+//    public void setySpeed(double ySpeed) {
+//        this.ySpeed = ySpeed;
+//    }
 
     /**
      * Gets the xLocation
@@ -362,9 +381,9 @@ public abstract class ArenaItem {
      * Sets the xLocation
      * @param xLocation
      */
-    public void setxLocation(int xLocation) {
-        this.xLocation = xLocation;
-    }
+//    public void setxLocation(int xLocation) {
+//        this.xLocation = xLocation;
+//    }
 
     /**
      * Gets the yLocation
@@ -378,9 +397,9 @@ public abstract class ArenaItem {
      * Sets the yLocation
      * @param yLocation
      */
-    public void setyLocation(int yLocation) {
-        this.yLocation = yLocation;
-    }
+//    public void setyLocation(int yLocation) {
+//        this.yLocation = yLocation;
+//    }
 
     /**
      * Gets the Arenas
@@ -394,9 +413,9 @@ public abstract class ArenaItem {
      * Sets the Arenas
      * @param myArena
      */
-    public void setMyArena(Arena myArena) {
-        this.myArena = myArena;
-    }
+//    public void setMyArena(Arena myArena) {
+//        this.myArena = myArena;
+//    }
 
     /**
      * Gets the radius
@@ -413,7 +432,75 @@ public abstract class ArenaItem {
         this.radius = radius;
     }
 
+    private void updateTemps(){
+        tempxAcceleration = xAcceleration;
+        tempyAcceleration = yAcceleration;
+
+        tempxSpeed = xSpeed;
+        tempySpeed = ySpeed;
+
+        tempxLocation = xLocation;
+        tempyLocation = yLocation;
+    }
 
     public abstract void run();
 
+    public double getTempxAcceleration() {
+        return tempxAcceleration;
+    }
+
+    public void setTempxAcceleration(double tempxAcceleration) {
+        this.tempxAcceleration = tempxAcceleration;
+    }
+
+    public double getTempyAcceleration() {
+        return tempyAcceleration;
+    }
+
+    public void setTempyAcceleration(double tempyAcceleration) {
+        this.tempyAcceleration = tempyAcceleration;
+    }
+
+    public double getTempxSpeed() {
+        return tempxSpeed;
+    }
+
+    public void setTempxSpeed(double tempxSpeed) {
+        this.tempxSpeed = tempxSpeed;
+    }
+
+    public double getTempySpeed() {
+        return tempySpeed;
+    }
+
+    public void setTempySpeed(double tempySpeed) {
+        this.tempySpeed = tempySpeed;
+    }
+
+    public int getTempxLocation() {
+        return tempxLocation;
+    }
+
+    public void setTempxLocation(int tempxLocation) {
+        this.tempxLocation = tempxLocation;
+    }
+
+    public int getTempyLocation() {
+        return tempyLocation;
+    }
+
+    public void setTempyLocation(int tempyLocation) {
+        this.tempyLocation = tempyLocation;
+    }
+
+    public void update(){
+        xAcceleration = tempxAcceleration;
+        yAcceleration = tempyAcceleration;
+
+        xSpeed = tempxSpeed;
+        ySpeed = tempySpeed;
+
+        xLocation = tempxLocation;
+        yLocation = tempyLocation;
+    }
 }

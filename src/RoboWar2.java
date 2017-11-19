@@ -42,7 +42,7 @@ public class RoboWar2 extends Application implements Observer {
 
 
         arenaControler = new ArenaControler(arena);
-        arenaControler.setSpeed(5);
+        arenaControler.setSpeed(1);
         System.out.println("Setting Up Gui and Arena");
 
 
@@ -135,6 +135,7 @@ public class RoboWar2 extends Application implements Observer {
 //            graphicsContext.fillOval(10, 60, 30, 30);
             for (ArenaItem item:((Arena) o).getItems()){
                 int r = item.getRadius();
+//                System.out.println((item.getxLocation() - r) + " " + (item.getyLocation() - r));
                 graphicsContext.fillOval(item.getxLocation() - r, item.getyLocation() - r, 2 * r , 2 * r );
             }
         }

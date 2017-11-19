@@ -141,13 +141,13 @@ public class Arena extends Observable {
      */
     public double move(ArenaItem i){
         int x = (int)(i.getxLocation() + getDistance(timeChange, i.getxSpeed(), i.getxAcceleration()));
-        int y = (int)(i.getxLocation() + getDistance(timeChange, i.getySpeed(), i.getyAcceleration()));
+        int y = (int)(i.getyLocation() + getDistance(timeChange, i.getySpeed(), i.getyAcceleration()));
 
         if (inRange(x, y, i.getRadius())){
-            i.setxLocation(x);
-            i.setyLocation(y);
-            i.setxSpeed(i.getxSpeed()+ timeChange * i.getxAcceleration());
-            i.setySpeed(i.getySpeed()+ timeChange * i.getyAcceleration());
+            i.setTempxLocation(x);
+            i.setTempyLocation(y);
+            i.setTempxSpeed(i.getxSpeed()+ timeChange * i.getxAcceleration());
+            i.setTempySpeed(i.getySpeed()+ timeChange * i.getyAcceleration());
             return timeChange;
         }else{
             handleOver(x, y,i);
@@ -173,29 +173,29 @@ public class Arena extends Observable {
      */
     private void handleOver(int x, int y, ArenaItem i) {
         if (x + i.getRadius() > width) {
-            i.setxLocation(width - i.getRadius());
-            i.setxSpeed(0);
+            i.setTempxLocation(width - i.getRadius());
+            i.setTempxSpeed(0);
 
         } else if (x < i.getRadius()) {
-            i.setxLocation(i.getRadius());
-            i.setxSpeed(0);
+            i.setTempxLocation(i.getRadius());
+            i.setTempxSpeed(0);
 
         }else {
-            i.setxLocation(x);
-            i.setxSpeed(i.getxSpeed()+ timeChange * i.getxAcceleration());
+            i.setTempxLocation(x);
+            i.setTempxSpeed(i.getxSpeed()+ timeChange * i.getxAcceleration());
         }
 
         if (y + i.getRadius() > height) {
-            i.setyLocation(height - i.getRadius());
-            i.setySpeed(0);
+            i.setTempyLocation(height - i.getRadius());
+            i.setTempySpeed(0);
 
         } else if (y < i.getRadius()){
-            i.setyLocation(i.getRadius());
-            i.setySpeed(0);
+            i.setTempyLocation(i.getRadius());
+            i.setTempySpeed(0);
 
         }else{
-            i.setyLocation(y);
-            i.setySpeed(i.getySpeed()+ timeChange * i.getyAcceleration());
+            i.setTempyLocation(y);
+            i.setTempySpeed(i.getySpeed()+ timeChange * i.getyAcceleration());
         }
 
     }
@@ -212,10 +212,11 @@ public class Arena extends Observable {
             this.move(item);
             item.run();
         }
-//        System.out.println("Tried");
+        for(ArenaItem item: this.items){
+            item.update();
+        }
         super.setChanged();
         super.notifyObservers();
-//        System.out.println("Done");
     }
 
     public int getMASS_DEFAULT() {

@@ -12,10 +12,10 @@ public class BouncingArena extends Arena {
         int y = (int)(i.getyLocation() + getDistance(getTimeChange(), i.getySpeed(), i.getyAcceleration()));
 
         if (inRange(x, y, i.getRadius())){
-            i.setxLocation(x);
-            i.setyLocation(y);
-            i.setxSpeed(i.getxSpeed()+ getTimeChange() * i.getxAcceleration());
-            i.setySpeed(i.getySpeed()+ getTimeChange() * i.getyAcceleration());
+            i.setTempxLocation(x);
+            i.setTempyLocation(y);
+            i.setTempxSpeed(i.getxSpeed()+ getTimeChange() * i.getxAcceleration());
+            i.setTempySpeed(i.getySpeed()+ getTimeChange() * i.getyAcceleration());
             return getTimeChange();
         }else{
             handleOver(x, y,i);
@@ -39,26 +39,26 @@ public class BouncingArena extends Arena {
      * @param y the y location the item is moving to
      * @param i the item
      */
-    private void handleOver(int x, int y, ArenaItem i) {
+    void handleOver(int x, int y, ArenaItem i) {
         if (x + i.getRadius() > getWidth()) {
 //            System.out.println("Case 1");
             double time = getTime(getWidth() - i.getRadius() - i.getxLocation(), i.getxSpeed(), i.getxAcceleration());
             double speed2 = i.getxSpeed() + time * i.getxAcceleration();
 
-            i.setxLocation((int)(getWidth() - i.getRadius() + Arena.getDistance((getTimeChange() - time), -speed2, i.getxAcceleration())));
-            i.setxSpeed(-speed2 + (getTimeChange() - time) * i.getxAcceleration());
+            i.setTempxLocation((int)(getWidth() - i.getRadius() + Arena.getDistance((getTimeChange() - time), -speed2, i.getxAcceleration())));
+            i.setTempxSpeed(-speed2 + (getTimeChange() - time) * i.getxAcceleration());
 
         } else if (x < i.getRadius()) {
 //            System.out.println("Case 2");
 
             double time = getTime( i.getRadius() - i.getxLocation(), i.getxSpeed(), i.getxAcceleration());
             double speed2 = i.getxSpeed() + time * i.getxAcceleration();
-            i.setxLocation((int)(i.getRadius() + Arena.getDistance((getTimeChange() - time), -speed2, i.getxAcceleration())));
-            i.setxSpeed(-speed2 + (getTimeChange() - time) * i.getxAcceleration());
+            i.setTempxLocation((int)(i.getRadius() + Arena.getDistance((getTimeChange() - time), -speed2, i.getxAcceleration())));
+            i.setTempxSpeed(-speed2 + (getTimeChange() - time) * i.getxAcceleration());
 
         } else {
-            i.setxLocation(x);
-            i.setxSpeed(i.getxSpeed() + getTimeChange() * i.getxAcceleration());
+            i.setTempxLocation(x);
+            i.setTempxSpeed(i.getxSpeed() + getTimeChange() * i.getxAcceleration());
         }
 
         if (y + i.getRadius() > getHeight()) {
@@ -66,19 +66,19 @@ public class BouncingArena extends Arena {
 //            System.out.println("Case 3");
             double time = getTime( getHeight() - i.getRadius()  - i.getyLocation(), i.getySpeed(), i.getyAcceleration());
             double speed2 = i.getySpeed() + time * i.getyAcceleration();
-            i.setyLocation((int)(getHeight() - i.getRadius() + Arena.getDistance((getTimeChange() - time), -speed2, i.getyAcceleration())));
-            i.setySpeed(-speed2 + (getTimeChange() - time) * i.getyAcceleration());
+            i.setTempyLocation((int)(getHeight() - i.getRadius() + Arena.getDistance((getTimeChange() - time), -speed2, i.getyAcceleration())));
+            i.setTempySpeed(-speed2 + (getTimeChange() - time) * i.getyAcceleration());
 
         } else if (y < i.getRadius()) {
 //            System.out.println("Case 4");
             double time = getTime( i.getRadius() - i.getyLocation(), i.getySpeed(), i.getyAcceleration());
             double speed2 = i.getySpeed() + time * i.getyAcceleration();
-            i.setyLocation((int)(i.getRadius() + Arena.getDistance((getTimeChange() - time), -speed2, i.getyAcceleration())));
-            i.setySpeed(-speed2 + (getTimeChange() - time) * i.getyAcceleration());
+            i.setTempyLocation((int)(i.getRadius() + Arena.getDistance((getTimeChange() - time), -speed2, i.getyAcceleration())));
+            i.setTempySpeed(-speed2 + (getTimeChange() - time) * i.getyAcceleration());
 
         } else {
-            i.setyLocation(y);
-            i.setySpeed(i.getySpeed() + getTimeChange() * i.getyAcceleration());
+            i.setTempyLocation(y);
+            i.setTempySpeed(i.getySpeed() + getTimeChange() * i.getyAcceleration());
         }
     }
 
@@ -89,13 +89,15 @@ public class BouncingArena extends Arena {
      * @param acceleration the constant acceration
      * @return the time taken
      */
-    private double getTime(double deltaDistance, double speed, double acceleration){
+    double getTime(double deltaDistance, double speed, double acceleration){
         if (acceleration != 0) {
-            double A1 = (speed - (double) Math.sqrt(Math.pow((double) speed, 2.0) + acceleration * deltaDistance)) / acceleration;
-            double A2 = (speed + (double) Math.sqrt(Math.pow((double) speed, 2.0) + acceleration * deltaDistance)) / acceleration;
-            if (A1 > 0 && A1 < getTimeChange()) {
+            double A1 = (speed - (double) Math.sqrt(Math.pow((double) speed, 2.0) +  2 * acceleration * deltaDistance)) / acceleration;
+            double A2 = (speed + (double) Math.sqrt(Math.pow((double) speed, 2.0) + 2 * acceleration * deltaDistance)) / acceleration;
+            if (A1 > 0 && A1 < getTimeChange() && A2 > 0 && A2 < getTimeChange()) {
+                return Math.min(A1, A2);
+            } else if (A1 > 0 && A1 < getTimeChange()) {
                 return A1;
-            } else {
+            }else{
                 return A2;
             }
         }else {
